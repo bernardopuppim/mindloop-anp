@@ -134,23 +134,27 @@ def get_fast_mode_config() -> Dict[str, Any]:
 
 
 # ===================================================================
-# LOG STARTUP
+# LOG STARTUP (usando logging para compatibilidade com Vercel)
 # ===================================================================
+import logging
+
+logger = logging.getLogger(__name__)
+
 if FAST_MODE_ENABLED:
-    print("\n" + "="*70)
-    print(" ⚡ FAST_MODE ATIVADO")
-    print("="*70)
     hyde_status = "HABILITADO" if RAG_HYDE_ENABLED else "DESABILITADO"
-    print(f"✅ HyDE: {hyde_status}")
-    print(f"✅ RAG K: {RAG_BM25_K} BM25 + {RAG_SEMANTIC_K} Semântico")
-    print(f"✅ Rerank Top-N: {RAG_RERANK_TOP_N}")
-    print(f"✅ Contexto máximo: {RAG_MAX_CONTEXT_LENGTH} chars")
-    print(f"✅ LLM max_tokens: {LLM_MAX_TOKENS}")
-    print(f"✅ LATS max_steps: {LATS_MAX_STEPS}")
-    print(f"✅ LATS top_finais: {LATS_TOP_FINAIS}")
-    print(f"\n⚠️  HITL THRESHOLD: {HITL_THRESHOLD_ENTROPIA} (NÃO AFETADO)")
-    print("="*70 + "\n")
+    logger.info("="*70)
+    logger.info(" ⚡ FAST_MODE ATIVADO")
+    logger.info("="*70)
+    logger.info(f"✅ HyDE: {hyde_status}")
+    logger.info(f"✅ RAG K: {RAG_BM25_K} BM25 + {RAG_SEMANTIC_K} Semântico")
+    logger.info(f"✅ Rerank Top-N: {RAG_RERANK_TOP_N}")
+    logger.info(f"✅ Contexto máximo: {RAG_MAX_CONTEXT_LENGTH} chars")
+    logger.info(f"✅ LLM max_tokens: {LLM_MAX_TOKENS}")
+    logger.info(f"✅ LATS max_steps: {LATS_MAX_STEPS}")
+    logger.info(f"✅ LATS top_finais: {LATS_TOP_FINAIS}")
+    logger.info(f"⚠️  HITL THRESHOLD: {HITL_THRESHOLD_ENTROPIA} (NÃO AFETADO)")
+    logger.info("="*70)
 else:
     hyde_status = "habilitado" if RAG_HYDE_ENABLED else "desabilitado"
-    print(f"[FAST_MODE] Desabilitado. Usando configuração padrão (full performance).")
-    print(f"[HyDE] {hyde_status.capitalize()} (USE_HYDE={USE_HYDE})")
+    logger.info(f"[FAST_MODE] Desabilitado. Usando configuração padrão (full performance).")
+    logger.info(f"[HyDE] {hyde_status.capitalize()} (USE_HYDE={USE_HYDE})")

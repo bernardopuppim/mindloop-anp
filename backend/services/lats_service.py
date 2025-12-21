@@ -1,14 +1,25 @@
 # backend/services/lats_service.py
 
 from typing import Dict, Any
+import logging
 
 from lats_sistema.graph.build import build_graph
 from backend.models import PredictRequest, HitlContinueRequest, PredictResponse
 from lats_sistema.utils.confidence import traduzir_confianca
 from lats_sistema.utils.output_formatter import formatar_saida_final
 
-# Compilamos 1 vez
-GRAPH = build_graph()
+logger = logging.getLogger(__name__)
+
+# Lazy loading do grafo para compatibilidade com Vercel (cold start)
+_graph_cache = None
+
+def get_graph():
+    """Retorna grafo LATS (lazy loaded e cacheado)"""
+    global _graph_cache
+    if _graph_cache is None:
+        _graph_cache = build_graph()
+        logger.info("✓ Grafo LATS compilado")
+    return _graph_cache
 
 # ============================================================================
 # EXECUÇÃO NORMAL - RAG + LATS com HITL durante execução
@@ -52,7 +63,7 @@ def executar_primeira_fase(req: PredictRequest) -> PredictResponse:
 
     # Executar grafo completo (RAG → LATS)
     # Se HITL for necessário, o engine LATS detecta e salva checkpoint
-    result = GRAPH.invoke(state)
+    result = get_graph().invoke(state)
 
     # Traduzir log_prob em confiança (se houver resultado final)
     confianca = None
@@ -121,19 +132,19 @@ def continuar_pos_hitl(req: HitlContinueRequest) -> PredictResponse:
 
     state["hitl_justification"] = justificativa_final
 
-    print("\n" + "="*80)
-    print(" 🔄 CONTINUANDO APÓS DECISÃO HUMANA")
-    print("="*80)
-    print(f"➡️  Escolha do usuário: {req.selected_child}")
+    logger.info("="*80)
+    logger.info(" 🔄 CONTINUANDO APÓS DECISÃO HUMANA")
+    logger.info("="*80)
+    logger.info(f"➡️  Escolha do usuário: {req.selected_child}")
     if req.justification and req.justification.strip():
-        print(f"➡️  Justificativa (humana): {justificativa_final}")
+        logger.info(f"➡️  Justificativa (humana): {justificativa_final}")
     else:
-        print(f"➡️  Justificativa (modelo): {justificativa_final}")
-    print("="*80 + "\n")
+        logger.info(f"➡️  Justificativa (modelo): {justificativa_final}")
+    logger.info("="*80)
 
     # Executar/retomar grafo
     # O engine LATS detecta hitl_selected_child e chama _continuar_pos_hitl
-    result = GRAPH.invoke(state)
+    result = get_graph().invoke(state)
 
     # Traduzir log_prob em confiança (se houver resultado final)
     confianca = None

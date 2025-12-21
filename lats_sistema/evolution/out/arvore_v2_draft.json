@@ -1,0 +1,976 @@
+{
+  "id": "raiz",
+  "pergunta": "Qual o tipo de ocorrência?",
+  "resposta_esperada": "'Acidente com Lesão na Força de Trabalho ou Perturbação Funcional', 'Acidente com Lesão em Membro da Comunidade', 'Doença Ocupacional', 'Acidente com Impacto no Meio Ambiente', 'Acidente com Dano ao Patrimônio', 'Perda de Contenção com Foco em Segurança de Processo', 'Incidentes', 'Desvio'",
+  "tipo": "decisao",
+  "subnodos": [
+    {
+      "id": "lesao_forca_trabalho",
+      "pergunta": "O acidente causou lesão a um trabalhador próprio ou terceiro?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "lesao_primeiros_socorros",
+          "pergunta": "A lesão descrita requer apenas procedimentos de primeiros socorros, considerando exclusivamente a descrição fornecida, sem supor complicações não mencionadas?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "lesao_primeiros_socorros_confirma",
+              "classe": "Classe 1",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 17,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        },
+        {
+          "id": "lesao_tratamento_medico",
+          "pergunta": "A lesão exigiu tratamento médico adicional, afastamento ou procedimentos mais complexos (sutura convencional, perda de consciência, contaminação, recompressão)? É uma lesão temporária ou permante?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "lesao_tratamento_medico_sem_afastamento",
+              "pergunta": "Sem afastamento temporário do trabalho?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_tratamento_medico_sem_afastamento_confirma",
+                  "tipo": "terminal",
+                  "classe": "Classe 2"
+                }
+              ]
+            },
+            {
+              "id": "lesao_queimaduras",
+              "pergunta": "Há queimaduras de 2º grau >20% do corpo ou 3º grau >10% ou em áreas críticas?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_queimaduras_criticas",
+                  "classe": "Classe 4",
+                  "tipo": "terminal"
+                }
+              ]
+            },
+            {
+              "id": "lesao_temporaria",
+              "pergunta": "Se trata de uma lesão temporária?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_afastamento_temporario",
+                  "pergunta": "O afastamento deve ser considerado temporário, com retorno pleno das funções após recuperação?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "lesao_afastamento_temporario_terminal",
+                      "classe": "Classe 3",
+                      "tipo": "terminal"
+                    }
+                  ],
+                  "_diagnostico": {
+                    "entropia_media": 0.0,
+                    "visitas": 2,
+                    "status": "ok"
+                  },
+                  "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+                }
+              ],
+              "_diagnostico": {
+                "entropia_media": 0.0,
+                "visitas": 2,
+                "status": "ok"
+              },
+              "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+            },
+            {
+              "id": "lesao_com_permanete",
+              "pergunta": "Se trata de uma lesão permanente?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_afastamento_permanente",
+                  "pergunta": "A lesão é caracterizada como permanente?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "incapacidade_dias",
+                      "pergunta": "Foi informado quantos dias de afastamento?",
+                      "tipo": "decisao",
+                      "subnodos": [
+                        {
+                          "id": "dias_menos_200",
+                          "pergunta": "Menor que 200 dias?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "dias_menos_200_terminal",
+                              "classe": "Classe 3",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "dias_200_3000",
+                          "pergunta": "Entre 200 e 3.000 dias?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "dias_200_3000_terminal",
+                              "classe": "Classe 4",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "dias_acima_3000",
+                          "pergunta": "Acima de 3.000 dias?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "dias_acima_3000_terminal",
+                              "classe": "Classe 5",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "perda_membro",
+                      "pergunta": "Houve perda anatômica de membro (amputação)?",
+                      "tipo": "decisao",
+                      "subnodos": [
+                        {
+                          "id": "perda_membro_grande",
+                          "pergunta": "Braços e pernas. Amputação acima do cotovelo, mão no punho, acima do joelho?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "perda_membro_grande_terminal",
+                              "classe": "Classe 5",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "perda_membro_menor",
+                          "pergunta": "Pés e mãos. Amputação em metacarpos, falanges proximais, metatarsos?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "perda_membro_menor_terminal",
+                              "classe": "Classe 4",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "perda_funcional",
+                      "pergunta": "Houve perda funcional (visão, audição, olhos, timpano)?",
+                      "tipo": "decisao",
+                      "subnodos": [
+                        {
+                          "id": "perda_funcional_parcial",
+                          "pergunta": "Perda de visão de um olho ou audição de um ouvido?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "perda_funcional_parcial_terminal",
+                              "classe": "Classe 4",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "perda_funcional_total",
+                          "pergunta": "Perda total da visão (ambos os olhos) ou audição (ambos os ouvidos)?",
+                          "tipo": "decisao",
+                          "subnodos": [
+                            {
+                              "id": "perda_funcional_total_terminal",
+                              "classe": "Classe 5",
+                              "tipo": "terminal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 1.8322592619392246,
+            "visitas": 2,
+            "status": "problema_alto_ruido"
+          },
+          "_sugestao": "Nó com alta entropia: revisar pergunta e estrutura dos filhos.",
+          "_propostas_llm": {
+            "nova_pergunta": "A lesão resultou em incapacidade temporária ou permanente que requer intervenção médica especializada ou afastamento do trabalho?",
+            "justificativa": "Esta pergunta é mais específica e ajuda a distinguir entre lesões que exigem diferentes níveis de intervenção médica e impacto no trabalho, reduzindo a ambiguidade.",
+            "novos_filhos_sugeridos": [
+              {
+                "titulo": "Lesão com Intervenção Médica Especializada",
+                "descricao_criterio": "Lesões que exigem procedimentos médicos complexos, como sutura convencional ou recompressão.",
+                "exemplos": [
+                  "Corte profundo que requer sutura convencional em campo.",
+                  "Lesão por descompressão que necessita de recompressão em câmara hiperbárica."
+                ]
+              },
+              {
+                "titulo": "Lesão com Afastamento Temporário",
+                "descricao_criterio": "Lesões que resultam em afastamento temporário do trabalho, mas não exigem procedimentos médicos complexos.",
+                "exemplos": [
+                  "Entorse de tornozelo que requer repouso e afastamento por alguns dias.",
+                  "Contusão que causa dor significativa e impede o trabalho por um curto período."
+                ]
+              },
+              {
+                "titulo": "Lesão Permanente",
+                "descricao_criterio": "Lesões que resultam em incapacidade permanente, afetando a capacidade de trabalho a longo prazo.",
+                "exemplos": [
+                  "Perda de um dedo em acidente com máquina durante manutenção.",
+                  "Lesão cerebral que resulta em perda de consciência e sequelas permanentes."
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "lesao_critica",
+          "pergunta": "O acidentado estava em risco iminente de morte ou morreu?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "lesao_risco_iminente",
+              "pergunta": "A situação foi considerada risco iminente de morte, com ameaça direta à vida do acidentado?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_risco_iminente_classe_terminal",
+                  "classe": "Classe 4",
+                  "tipo": "terminal"
+                }
+              ]
+            },
+            {
+              "id": "lesao_morte",
+              "pergunta": "O evento resultou em óbito confirmado da pessoa envolvida?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "lesao_morte_terminal",
+                  "classe": "Classe 5",
+                  "tipo": "terminal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesao_escala_trauma",
+          "pergunta": "A escala de trauma foi menor ou igual a 3?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "lesao_escala_trauma_classe",
+              "classe": "Classe 4",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 9,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        }
+      ],
+      "_diagnostico": {
+        "entropia_media": 1.8014956207942316,
+        "visitas": 28,
+        "status": "problema_alto_ruido"
+      },
+      "_sugestao": "Nó com alta entropia: revisar pergunta e estrutura dos filhos.",
+      "_propostas_llm": {
+        "nova_pergunta": "O acidente ocorreu durante uma operação de campo, embarcação ou manutenção?",
+        "justificativa": "Esta pergunta ajuda a identificar o contexto operacional do incidente, permitindo uma melhor discriminação entre diferentes tipos de eventos e suas causas, reduzindo a ambiguidade.",
+        "novos_filhos_sugeridos": [
+          {
+            "titulo": "Operação de Campo",
+            "descricao_criterio": "Incidentes que ocorrem durante atividades de campo, como perfuração, extração ou transporte terrestre.",
+            "exemplos": [
+              "Um trabalhador se machuca ao operar uma máquina de perfuração.",
+              "Lesão causada por queda de equipamento durante transporte terrestre."
+            ]
+          },
+          {
+            "titulo": "Operação de Embarcação",
+            "descricao_criterio": "Incidentes que ocorrem em embarcações, incluindo operações de carga, descarga ou navegação.",
+            "exemplos": [
+              "Um trabalhador se fere ao manusear carga no convés de um navio.",
+              "Lesão devido a um acidente durante a navegação."
+            ]
+          },
+          {
+            "titulo": "Operação de Manutenção",
+            "descricao_criterio": "Incidentes que ocorrem durante atividades de manutenção de equipamentos ou instalações.",
+            "exemplos": [
+              "Um técnico se machuca ao realizar manutenção em uma máquina.",
+              "Lesão causada por falha de equipamento durante reparos."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "lesao_membro_comunidade",
+      "pergunta": "O acidente envolveu membro da comunidade?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "comunidade_incapacidade",
+          "pergunta": "Gerou incapacidade permanente?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "comunidade_incapacidade_classe",
+              "classe": "Classe 4",
+              "tipo": "terminal"
+            }
+          ]
+        },
+        {
+          "id": "comunidade_morte",
+          "pergunta": "Ocorreu morte?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "comunidade_morte_classe",
+              "classe": "Classe 5",
+              "tipo": "terminal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "doenca_ocupacional",
+      "pergunta": "Trata-se de doença ocupacional?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "doenca_ocupacional_classe",
+          "classe": "Classe 4",
+          "tipo": "terminal"
+        }
+      ],
+      "_diagnostico": {
+        "entropia_media": 0.0,
+        "visitas": 2,
+        "status": "ok"
+      },
+      "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+    },
+    {
+      "id": "dano_patrimonio",
+      "pergunta": "O acidente causou dano ao patrimônio?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "dano_ate_2000",
+          "pergunta": "O custo foi menor ou igual a US$ 2 mil?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "dano_ate_2000_classe",
+              "classe": "Classe 0",
+              "tipo": "terminal"
+            }
+          ]
+        },
+        {
+          "id": "dano_ate_25000",
+          "pergunta": "O custo foi entre US$ 2 mil e US$ 25 mil?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "dano_ate_25000_classe",
+              "classe": "Classe 1",
+              "tipo": "terminal"
+            }
+          ]
+        },
+        {
+          "id": "dano_pequeno_porte",
+          "pergunta": "O custo foi entre US$ 25 mil e US$ 500 mil?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "dano_pequeno_classe",
+              "classe": "Classe 2",
+              "tipo": "terminal"
+            }
+          ]
+        },
+        {
+          "id": "dano_medio_porte",
+          "pergunta": "O custo foi entre US$ 500 mil e US$ 2 milhões?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "dano_medio_classe",
+              "classe": "Classe 3",
+              "tipo": "terminal"
+            }
+          ]
+        },
+        {
+          "id": "dano_grande_porte",
+          "pergunta": "O custo foi superior a US$ 2 milhões?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "dano_grande_classe",
+              "classe": "Classe 4",
+              "tipo": "terminal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "incidente",
+      "pergunta": "O evento poderia ter resultado em dano à pessoa, ao patrimônio ou ao meio ambiente?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "incidente_vazamento_contido",
+          "pergunta": "Foi um vazamento contido sem contato com o mar?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "incidente_vazamento_contido_terminal",
+              "classe": "Classe 0",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 1,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        },
+        {
+          "id": "incidente_sistemico",
+          "pergunta": "Foi um incidente sistêmico?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "incidente_sistemico_terminal",
+              "classe": "Classe 1",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 1,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        },
+        {
+          "id": "incidente_alto_potencial",
+          "pergunta": "Teve alto potencial?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "incidente_alto_potencial_terminal",
+              "classe": "Classe 2",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 4,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        }
+      ],
+      "_diagnostico": {
+        "entropia_media": 1.4500300820930816,
+        "visitas": 6,
+        "status": "problema_alto_ruido"
+      },
+      "_sugestao": "Nó com alta entropia: revisar pergunta e estrutura dos filhos.",
+      "_propostas_llm": {
+        "nova_pergunta": "O evento envolveu falha de equipamento, erro humano ou condições ambientais adversas?",
+        "justificativa": "Esta pergunta ajuda a identificar a causa raiz do incidente, permitindo uma classificação mais precisa e reduzindo a ambiguidade ao focar em fatores específicos que contribuem para incidentes de SMS.",
+        "novos_filhos_sugeridos": [
+          {
+            "titulo": "Falha de Equipamento",
+            "descricao_criterio": "Incidentes causados por mau funcionamento ou quebra de equipamentos.",
+            "exemplos": [
+              "Vazamento de óleo devido a uma válvula quebrada.",
+              "Parada de produção por falha no motor da embarcação."
+            ]
+          },
+          {
+            "titulo": "Erro Humano",
+            "descricao_criterio": "Incidentes resultantes de ações ou decisões inadequadas por parte dos operadores.",
+            "exemplos": [
+              "Operador não seguiu o procedimento de segurança, resultando em lesão.",
+              "Erro na leitura de instrumentos levando a uma liberação não controlada de gás."
+            ]
+          },
+          {
+            "titulo": "Condições Ambientais Adversas",
+            "descricao_criterio": "Incidentes causados por fatores ambientais como clima extremo ou condições geográficas.",
+            "exemplos": [
+              "Danos à estrutura devido a uma tempestade.",
+              "Derramamento de produtos químicos por inundação."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "desvio",
+      "pergunta": "Foi uma ação ou condição com potencial de causar danos ou impacto e em desconformidade com normas?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "desvio_nao_categorizado",
+          "pergunta": "O desvio foi pontual e de baixo potencial de dano, sem implicações sistêmicas?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "desvio_nao_categorizado_terminal",
+              "classe": "Classe 0",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 6,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        },
+        {
+          "id": "desvio_sistemico",
+          "pergunta": "O desvio, embora não classificado como sistêmico, apresenta potencial moderado de causar incidentes?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "desvio_sistemico_terminal",
+              "classe": "Classe 1",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 1,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        },
+        {
+          "id": "desvio_critico",
+          "pergunta": "O desvio apresenta alto risco potencial e poderia resultar em acidentes graves ou fatais?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "desvio_critico_terminal",
+              "classe": "Classe 2",
+              "tipo": "terminal"
+            }
+          ],
+          "_diagnostico": {
+            "entropia_media": 0.0,
+            "visitas": 1,
+            "status": "ok"
+          },
+          "_sugestao": "Nó está estável; nenhuma ação obrigatória."
+        }
+      ],
+      "_diagnostico": {
+        "entropia_media": 1.4148673726136713,
+        "visitas": 8,
+        "status": "problema_alto_ruido"
+      },
+      "_sugestao": "Nó com alta entropia: revisar pergunta e estrutura dos filhos.",
+      "_propostas_llm": {
+        "nova_pergunta": "O incidente envolveu uma falha operacional ou de manutenção que comprometeu a segurança ou o meio ambiente?",
+        "justificativa": "Esta pergunta é mais específica e ajuda a distinguir entre falhas operacionais e condições inseguras, permitindo uma classificação mais clara dos incidentes.",
+        "novos_filhos_sugeridos": [
+          {
+            "titulo": "Falha Operacional",
+            "descricao_criterio": "Incidentes causados por erros ou falhas durante operações de campo ou embarcação.",
+            "exemplos": [
+              "Operador não seguiu o procedimento correto, resultando em derramamento de óleo.",
+              "Erro na operação de válvula causando liberação de gás."
+            ]
+          },
+          {
+            "titulo": "Falha de Manutenção",
+            "descricao_criterio": "Incidentes causados por falhas ou negligências na manutenção de equipamentos.",
+            "exemplos": [
+              "Equipamento não foi inspecionado adequadamente, levando a um vazamento.",
+              "Falta de manutenção preventiva resultou em falha mecânica."
+            ]
+          },
+          {
+            "titulo": "Condição Insegura",
+            "descricao_criterio": "Incidentes causados por condições que não atendem aos padrões de segurança ou ambientais.",
+            "exemplos": [
+              "Área de trabalho não sinalizada corretamente, causando risco de queda.",
+              "Armazenamento inadequado de materiais perigosos."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "acidente_Impacto_Meio_Ambiente",
+      "pergunta": "Houve um acidente que cuminou em impactos ambientais (ex.: descarga, vazamento?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "produto_vazado",
+          "pergunta": "Qual produto foi derramado no mar?",
+          "tipo": "decisao",
+          "resposta_esperada": "'Gasolina', 'Querosene', 'Nafta', 'Petróleo Leve', 'Óleo Diesel', 'Petróleo Médio', 'Óleo Combustível', 'Petróleo Pesado', 'Óleo Combustível Pesado', 'produto químico não perigoso'",
+          "subnodos": [
+            {
+              "id": "gasolina_querosene_nafta",
+              "pergunta": "(gasolina, querosene, nafta). Qual o volume estimado vazado em metros cúbicos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "classe_0_gasolina",
+                  "pergunta": "Menor que 0,005 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_0_gasolina_terminal",
+                      "classe": "Classe 0",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_1_gasolina",
+                  "pergunta": "Entre 0,005 e 0,05 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_1_gasolina_terminal",
+                      "classe": "Classe 1",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_2_gasolina",
+                  "pergunta": "Entre 0,05 e 0,5 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_2_gasolina_terminal",
+                      "classe": "Classe 2",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_3_gasolina",
+                  "pergunta": "Entre 0,5 e 50 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_3_gasolina_terminal",
+                      "classe": "Classe 3",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_4_gasolina",
+                  "pergunta": "Acima de 50 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_4_gasolina_terminal",
+                      "classe": "Classe 4",
+                      "tipo": "terminal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "petroleo_leve_oleo_diesel",
+              "pergunta": "(petroleo leve, oleo diesel). Qual o volume estimado vazado em metros cúbicos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "classe_0_diesel",
+                  "pergunta": "Menor que 0,003 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_0_diesel_terminal",
+                      "classe": "Classe 0",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_1_diesel",
+                  "pergunta": "Entre 0,003 e 0,035 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_1_diesel_terminal",
+                      "classe": "Classe 1",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_2_diesel",
+                  "pergunta": "Entre 0,035 e 0,35 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_2_diesel_terminal",
+                      "classe": "Classe 2",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_3_diesel",
+                  "pergunta": "Entre 0,35 e 35 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_3_diesel_terminal",
+                      "classe": "Classe 3",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_4_diesel",
+                  "pergunta": "Acima de 35 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "classe_4_diesel_terminal",
+                      "classe": "Classe 4",
+                      "tipo": "terminal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "petroleo_medio_oleo_combustivel",
+              "pergunta": "(Petróleo médio, oleo combustível). Qual o volume estimado vazado em metros cúbicos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "classe_0_medio",
+                  "pergunta": "Menor que 0,002 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "medio_classe_0_terminal",
+                      "classe": "Classe 0",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_1_medio",
+                  "pergunta": "Entre 0,002 e 0,02 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "medio_classe_1_terminal",
+                      "classe": "Classe 1",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_2_medio",
+                  "pergunta": "Entre 0,02 e 0,2 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "medio_classe_2_terminal",
+                      "classe": "Classe 2",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_3_medio",
+                  "pergunta": "Entre 0,2 e 20 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "medio_classe_3_terminal",
+                      "classe": "Classe 3",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_4_medio",
+                  "pergunta": "Acima de 20 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "medio_classe_4_terminal",
+                      "classe": "Classe 4",
+                      "tipo": "terminal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "petroleo_pesado_oleo_pesado",
+              "pergunta": "(Petróleo pesado, oleo pesado). Qual o volume estimado vazado em metros cúbicos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "classe_0_pesado",
+                  "pergunta": "Menor que 0,001 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "pesado_classe_0_terminal",
+                      "classe": "Classe 0",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_1_pesado",
+                  "pergunta": "Entre 0,001 e 0,01 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "pesado_classe_1_terminal",
+                      "classe": "Classe 1",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_2_pesado",
+                  "pergunta": "Entre 0,01 e 0,1 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "pesado_classe_2_terminal",
+                      "classe": "Classe 2",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_3_pesado",
+                  "pergunta": "Entre 0,1 e 10 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "pesado_classe_3_terminal",
+                      "classe": "Classe 3",
+                      "tipo": "terminal"
+                    }
+                  ]
+                },
+                {
+                  "id": "classe_4_pesado",
+                  "pergunta": "Acima de 10 m³?",
+                  "tipo": "decisao",
+                  "subnodos": [
+                    {
+                      "id": "pesado_classe_4_terminal",
+                      "classe": "Classe 4",
+                      "tipo": "terminal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "produto_quimico_nao_perigoso",
+          "pergunta": "Se trata de um produto químico não perigoco ou seja: Não é inflamável em condições normais de uso. Não é corrosivo. Não é tóxico (ou sua toxicidade é considerada desprezível em pequenas quantidades). Não apresenta risco agudo ao meio ambiente. Como por exemplo: Solução de água com pequena concentração de detergente biodegradável. Óleo vegetal não contaminado, Fluido de perfuração base água sem cromo, sem óleos sintéticos, Água glicolada diluída (dependendo da concentração).?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "produto_quimico_nao_perigoso_terminal",
+              "classe": "Classe 0",
+              "tipo": "terminal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_diagnostico": {
+    "entropia_media": 2.2426933114147527,
+    "visitas": 44,
+    "status": "problema_alto_ruido"
+  },
+  "_sugestao": "Nó com alta entropia: revisar pergunta e estrutura dos filhos.",
+  "_propostas_llm": {
+    "nova_pergunta": "Em qual área operacional ocorreu o incidente?",
+    "justificativa": "A pergunta proposta busca segmentar os incidentes com base na área operacional, o que pode ajudar a reduzir a entropia ao associar tipos de incidentes a contextos específicos de operação, como campo, embarcação ou manutenção.",
+    "novos_filhos_sugeridos": [
+      {
+        "titulo": "Incidente em Campo",
+        "descricao_criterio": "O incidente ocorreu em uma área de campo, como uma plataforma terrestre ou offshore.",
+        "exemplos": [
+          "Vazamento de óleo em plataforma offshore",
+          "Queda de equipamento em campo terrestre"
+        ]
+      },
+      {
+        "titulo": "Incidente em Embarcação",
+        "descricao_criterio": "O incidente ocorreu em uma embarcação, como um navio de apoio ou transporte.",
+        "exemplos": [
+          "Colisão de embarcação com estrutura",
+          "Derramamento de carga no mar"
+        ]
+      },
+      {
+        "titulo": "Incidente de Manutenção",
+        "descricao_criterio": "O incidente ocorreu durante atividades de manutenção, seja em campo ou em instalações.",
+        "exemplos": [
+          "Falha de equipamento durante manutenção",
+          "Acidente com técnico durante reparo"
+        ]
+      }
+    ]
+  }
+}

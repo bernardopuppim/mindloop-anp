@@ -1,0 +1,348 @@
+{
+  "id": "raiz",
+  "pergunta": "Qual o tipo de incidente?",
+  "resposta_esperada": "'Dano ao meio ambiente e perda de controle do poço', 'Prejuízos materiais ao patrimônio próprio, para terceiros ou para as populações', 'Dano à Saúde Humana', 'quase_acidente'",
+  "tipo": "decisao",
+  "subnodos": [
+    {
+     "id": "quase_acidente",
+      "pergunta": "O evento descrito caracteriza um **quase acidente**, ou seja, uma situação que não resultou em acidente efetivo ou perda de controle do poço?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "19_Perda_posicionamento",
+          "pergunta": "Afastamento de instalação ou atividade de apoio de sua área de passeio crítico mantida com sistema de posicionamento dinâmico, que tenha ocasionado, no mínimo: (i) um alerta amarelo; (ii) a desconexão de mangotes de carga e descarga; ou (iii) a interrupção das operações da instalação.",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "Perda_posicionamento_terminal" ,
+              "tipo": "terminal",
+              "classe": "Perda de posicionamento"
+            }
+          ]
+        },
+        {
+          "id": "52_Perda_fonte_radioativa",
+          "pergunta": "Qualquer perda de material radioativo durante atividades operacionais ou de apoio." ,
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "Perda_fonte_radioativa_terminal" ,
+              "tipo": "terminal",
+              "classe": "Perda de fonte radioativa"
+            }
+          ]
+        },
+        {
+          "id": "53_Perda_carga_explosiva",
+          "pergunta": "Qualquer perda de material explosivo durante atividades operacionais ou de apoio.",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "Perda_carga_explosiva_terminal" ,
+              "tipo": "terminal",
+              "classe": "Perda de carga explosiva"
+            }
+          ]
+        },
+        {
+          "id": "54_Homem_ao_mar",
+          "pergunta": "Homem ao mar. Queda em corpo d’agua de pessoa a partir de instalação ou embarcação.",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "Homem_ao_mar_terminal" ,
+              "tipo": "terminal",
+              "classe": "Homem ao mar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dano_meio_ambiente",
+      "pergunta": "O incidente causou dano ao meio ambiente?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "descargas",
+          "pergunta": "Foi uma descarga ou perda de contenção?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "descarga_maior",
+              "pergunta": "Volume igual ou superior a 8 m³ ou atingiu área sensível?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarga_maior_terminal",
+                  "tipo": "terminal",
+                  "classe": "Descarga maior"
+                }
+              ]
+            },
+            {
+              "id": "descarga_significante",
+              "pergunta": "Volume entre 0,16 e 8 m³?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarga_significante_terminal",
+                  "tipo": "terminal",
+                  "classe": "Descarga significante"
+                }
+              ]
+            },
+            {
+              "id": "descarga_menor",
+              "pergunta": "Volume inferior a 0,16 m³?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarga_menor_terminal",
+                  "tipo": "terminal",
+                  "classe": "Descarga menor"
+                }
+              ]
+            },
+            {
+              "id": "descarga_manchas",
+              "pergunta": "Constatação de mancha de origem indeterminada?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarga_manchas_terminal",
+                  "tipo": "terminal",
+                  "classe": "Constatação de mancha de origem indeterminada"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "perda_controle_poco",
+          "pergunta": "Foi perda de controle de poço?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "perda_maior",
+              "pergunta": "Fluxo descontrolado >24 horas?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "perda_maior_terminal",
+                  "tipo": "terminal",
+                  "classe": "Perda maior de controle de poço"
+                }
+              ]
+            },
+            {
+              "id": "perda_significante",
+              "pergunta": "Fluxo descontrolado entre 5 min e 24 horas?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "perda_significante_terminal",
+                  "tipo": "terminal",
+                  "classe": "Perda significante de controle de poço"
+                }
+              ]
+            },
+            {
+              "id": "perda_menor",
+              "pergunta": "Fluxo descontrolado <5 minutos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "perda_menor_terminal",
+                  "tipo": "terminal",
+                  "classe": "Perda menor de controle de poço"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "descarte_fora_especificacao",
+          "pergunta": "Foi descarte fora de especificação?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "descarte_agua",
+              "pergunta": "Descarte de água produzida?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarte_agua_terminal",
+                  "tipo": "terminal",
+                  "classe": "Descarte fora de especificação de água produzida"
+                }
+              ]
+            },
+            {
+              "id": "descarte_fluidos",
+              "pergunta": "Descarte de fluidos/cascalhos?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "descarte_fluidos_terminal",
+                  "tipo": "terminal",
+                  "classe": "Descarte fora de especificação de fluidos de perfuração, completação, intervenção ou cascalhos"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dano_saude_humana",
+      "pergunta": "O incidente causou dano à saúde humana?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "ferimentos_fatalidades",
+          "pergunta": "Foi ferimento, fatalidade ou doença?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "ferimento_grave",
+              "pergunta": "Para os fins deste manual, um evento é considerado como **ferimento grave** quando o mesmo ocasionar, por consequência, um ferimento, tipificado no rol de ferimentos graves descritos: (a) fratura de ossos que não seja de dedos; (b) amputação; (c) perda de consciência devido à asfixia ou à exposição a substâncias nocivas ou perigosas; (d) doença aguda que requeira tratamento médico, devido a exposição a substâncias nocivas ou perigosas;(e) lesão de órgãos internos; (f) deslocamento de articulações; (g) perda de visão; (h) hipotermia ou outras doenças relacionadas à exposição a temperaturas extremas; (i) necessidade de internação por mais de 24 (vinte e quatro) horas; (j) queimadura química ou por metal quente no olho ou qualquer lesão penetrante no olho; ou (k) qualquer outra lesão que requeira procedimento de ressuscitação. Se enquadra em ferimento grave?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "ferimento_grave_terminal",
+                  "tipo": "terminal", 
+                  "classe": "Ferimento grave"
+                }
+              ]
+            },
+            {
+              "id": "ferimento_afastamento_1_3",
+              "pergunta": "Ferimento com afastamento de 1 a 3 dias?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "ferimento_afastamento_1_3_terminal",
+                  "tipo": "terminal", 
+                  "classe": "Ferimento com afastamento de 1 a 3 dias"
+                }
+              ] 
+            },
+            {
+              "id": "ferimento_afastamento_mais_3",
+              "pergunta": "Ferimento com afastamento superior a 3 dias?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "ferimento_afastamento_mais_3_terminal",
+                  "tipo": "terminal", 
+                  "classe": "Ferimento com afastamento por mais de 3 dias"
+                }
+              ] 
+            },
+            {
+              "id": "fatalidade",
+              "pergunta": "Fatalidade?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "fatalidade_terminal",
+                  "tipo": "terminal", 
+                  "classe": "Fatalidade"
+                }
+              ] 
+            },
+            {
+              "id": "surto_infecto",
+              "pergunta": "Surto de doença infectocontagiosa?",
+              "tipo": "decisao",
+              "subnodos": [
+                {
+                  "id": "surto_infecto_terminal",
+                  "tipo": "terminal", 
+                  "classe": "Surto de doença infectocontagiosa"
+                }
+              ] 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prejuizos_materiais",
+      "pergunta": "O incidente causou prejuízos materiais ao patrimônio?",
+      "tipo": "decisao",
+      "subnodos": [
+        {
+          "id": "falhas_estruturais",
+          "pergunta": "Foi falha estrutural?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "falha_instalacao_offshore",
+              "pergunta": "Falha estrutural em instalação offshore?",
+              "tipo": "terminal",
+              "classe": "Falha estrutural em instalação offshore"
+            },
+            {
+              "id": "falha_sistema_coleta",
+              "pergunta": "Falha estrutural em sistema de coleta/escoamento?",
+              "tipo": "terminal",
+              "classe": "Falha estrutural em sistema de coleta ou escoamento da produção"
+            },
+            {
+              "id": "falha_tanque",
+              "pergunta": "Falha estrutural em tanque?",
+              "tipo": "terminal",
+              "classe": "Falha estrutural em tanque"
+            },
+            {
+              "id": "falha_poco",
+              "pergunta": "Falha estrutural em poço?",
+              "tipo": "terminal",
+              "classe": "Falha estrutural em poço"
+            }
+          ]
+        },
+        {
+          "id": "eventos_pocos",
+          "pergunta": "Eventos relacionados a poços?",
+          "tipo": "decisao",
+          "subnodos": [
+            {
+              "id": "falha_riser",
+              "pergunta": "Falha no riser de perfuração/intervenção?",
+              "tipo": "terminal",
+              "classe": "Falha no riser de perfuração ou intervenção"
+            },
+            {
+              "id": "aprisionamento_coluna",
+              "pergunta": "Aprisionamento de coluna?",
+              "tipo": "terminal",
+              "classe": "Aprisionamento de coluna"
+            },
+            {
+              "id": "perda_circulacao",
+              "pergunta": "Perda de circulação?",
+              "tipo": "terminal",
+              "classe": "Perda de circulação"
+            },
+            {
+              "id": "kick",
+              "pergunta": "Falha da barreira primária (kick)?",
+              "tipo": "terminal",
+              "classe": "Falha da barreira primária na perfuração ou intervenção em poços (kick)"
+            },
+            {
+              "id": "desconexao_emergencia",
+              "pergunta": "Desconexão de emergência?",
+              "tipo": "terminal",
+              "classe": "Desconexão de emergência"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

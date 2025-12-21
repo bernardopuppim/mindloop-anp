@@ -1,0 +1,9 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.stButton>button {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+}
+

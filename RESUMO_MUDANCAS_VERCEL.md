@@ -8,9 +8,11 @@ Backend FastAPI está **100% compatível com deploy no Vercel** mantendo funcion
 
 ## 📦 Arquivos Criados
 
-1. **`vercel.json`** - Configuração de build e rotas para Vercel
-2. **`lats_sistema/config/logging_config.py`** - Logging centralizado
-3. **`VERCEL_DEPLOY_CHANGES.md`** - Documentação completa das mudanças
+1. **`api/main.py`** - Entrypoint Vercel (re-exporta backend/main.py)
+2. **`vercel.json`** - Configuração de build e rotas para Vercel
+3. **`lats_sistema/config/logging_config.py`** - Logging centralizado
+4. **`VERCEL_DEPLOY_CHANGES.md`** - Documentação completa das mudanças
+5. **`VERCEL_ENTRYPOINT_FIX.md`** - Fix para detecção automática FastAPI
 
 ---
 

@@ -2,16 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/main.py",
+      "src": "api/main.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend/main.py"
+      "dest": "api/main.py"
     }
   ],
+  "functions": {
+    "api/main.py": {
+      "runtime": "python3.11"
+    }
+  },
   "env": {
     "PYTHONPATH": "."
   }

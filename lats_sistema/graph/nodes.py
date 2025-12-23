@@ -4,16 +4,37 @@
 
 from typing import Dict, Any, List
 from langchain_core.documents import Document
+import logging
 
-from lats_sistema.rag.hyde import hyde_generate
-from lats_sistema.rag.bm25_search import buscar_bm25
-from lats_sistema.rag.semantic_search import buscar_semantico
-from lats_sistema.rag.reranker import rerank
-from lats_sistema.rag.synthesizer import sintetizar
-from lats_sistema.vectorstore.corpus_loader import carregar_corpus_normativo
+# ===================================================================
+# LAZY IMPORTS CONDICIONAIS - Evita carregar FAISS em SERVERLESS MODE
+# ===================================================================
+from lats_sistema.config.fast_mode import SERVERLESS_FAST_MODE
 
+# Imports sempre necessários (não dependem de FAISS)
 from lats_sistema.lats.engine import executar_lats
 from lats_sistema.lats.tree_loader import NODE_INDEX
+
+logger = logging.getLogger(__name__)
+
+# Imports pesados (RAG/FAISS) - apenas quando NÃO estiver em serverless mode
+if not SERVERLESS_FAST_MODE:
+    from lats_sistema.rag.hyde import hyde_generate
+    from lats_sistema.rag.bm25_search import buscar_bm25
+    from lats_sistema.rag.semantic_search import buscar_semantico
+    from lats_sistema.rag.reranker import rerank
+    from lats_sistema.rag.synthesizer import sintetizar
+    from lats_sistema.vectorstore.corpus_loader import carregar_corpus_normativo
+else:
+    # Placeholders para evitar erros de nome não definido
+    # Estes nunca serão chamados porque o RAG será bypassado
+    hyde_generate = None
+    buscar_bm25 = None
+    buscar_semantico = None
+    rerank = None
+    sintetizar = None
+    carregar_corpus_normativo = None
+    logger.info("[SERVERLESS MODE] RAG imports bypassados - FAISS não será carregado")
 
 
 # ================================================================
@@ -58,8 +79,11 @@ def no_rag(state: Dict[str, Any]) -> Dict[str, Any]:
 
     ⚡ OTIMIZAÇÃO: RAG só executa se explicitamente solicitado via state.
     Permite que LATS-P inicie sem RAG e só execute quando necessário.
+
+    🚀 SERVERLESS MODE: RAG é completamente bypassado quando SERVERLESS_FAST_MODE=true
     """
     from lats_sistema.config.fast_mode import (
+        SERVERLESS_FAST_MODE,
         FAST_MODE_ENABLED,
         RAG_HYDE_ENABLED,
         RAG_BM25_K,
@@ -68,9 +92,18 @@ def no_rag(state: Dict[str, Any]) -> Dict[str, Any]:
         RAG_MAX_CONTEXT_LENGTH,
     )
 
+    # 🚀 BYPASS AUTOMÁTICO: Modo serverless sempre pula RAG
+    if SERVERLESS_FAST_MODE:
+        logger.info("="*70)
+        logger.info("[RAG BYPASS] Execução pulada (SERVERLESS_FAST_MODE ativo)")
+        logger.info("[RAG BYPASS] Pipeline RAG desabilitado - FAISS não carregado")
+        logger.info("="*70)
+        state["contexto_normativo"] = ""
+        return state
+
     # ⚡ BYPASS: Se RAG foi explicitamente desabilitado, pular execução
     if state.get("_skip_rag", False):
-        print("\n⚡ RAG BYPASS: Execução pulada (contexto não necessário)")
+        logger.info("\n⚡ RAG BYPASS: Execução pulada (contexto não necessário)")
         state["contexto_normativo"] = ""
         return state
 

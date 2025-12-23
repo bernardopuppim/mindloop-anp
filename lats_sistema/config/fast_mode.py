@@ -25,6 +25,19 @@ FAST_MODE_ENABLED = os.getenv("FAST_MODE", "0") == "1"
 
 
 # ===================================================================
+# CONFIGURAÇÃO SERVERLESS_FAST_MODE
+# ===================================================================
+# Modo serverless SEM RAG/FAISS para deploy em Vercel (limite 250 MB)
+# Quando ativo:
+# - ❌ NÃO importa FAISS
+# - ❌ NÃO importa lats_sistema.rag.*
+# - ❌ NÃO carrega embeddings
+# - ✅ Mantém 100% da lógica LATS-P (heurísticas, poda, entropia, HITL)
+# - ✅ RAG é automaticamente bypassado no grafo
+SERVERLESS_FAST_MODE = os.getenv("SERVERLESS_FAST_MODE", "0") == "1"
+
+
+# ===================================================================
 # CONFIGURAÇÃO HYDE (INDEPENDENTE DO FAST_MODE)
 # ===================================================================
 # HyDE está DESLIGADO por padrão
@@ -140,7 +153,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-if FAST_MODE_ENABLED:
+# ===================================================================
+# LOG STARTUP
+# ===================================================================
+if SERVERLESS_FAST_MODE:
+    logger.info("="*70)
+    logger.info(" 🚀 SERVERLESS MODE ATIVO")
+    logger.info("="*70)
+    logger.info("❌ FAISS DISABLED - Nenhum índice vetorial será carregado")
+    logger.info("❌ RAG BYPASS - Pipeline RAG completamente desabilitado")
+    logger.info("✅ LATS-P ATIVO - Todas as heurísticas, poda e entropia mantidas")
+    logger.info("✅ HITL ATIVO - Human-in-the-loop preservado")
+    logger.info(f"✅ LATS max_steps: {LATS_MAX_STEPS}")
+    logger.info(f"✅ LATS top_finais: {LATS_TOP_FINAIS}")
+    logger.info(f"⚠️  HITL THRESHOLD: {HITL_THRESHOLD_ENTROPIA} (NÃO AFETADO)")
+    logger.info("="*70)
+elif FAST_MODE_ENABLED:
     hyde_status = "HABILITADO" if RAG_HYDE_ENABLED else "DESABILITADO"
     logger.info("="*70)
     logger.info(" ⚡ FAST_MODE ATIVADO")

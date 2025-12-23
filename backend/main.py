@@ -7,6 +7,10 @@ from backend.services.lats_service import executar_primeira_fase, continuar_pos_
 
 app = FastAPI(title="LATS-P Service API")
 
+@app.get("/")
+def health():
+    return {"status": "ok"}
+
 # Liberar chamadas do Streamlit
 app.add_middleware(
     CORSMiddleware,

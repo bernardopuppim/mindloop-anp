@@ -91,13 +91,20 @@ secrets.json
 # PDFs normativos (dados brutos)
 padroes_anp/*.pdf
 
-# Embeddings e índices
+# Embeddings e índices (PESADO - não incluir no bundle Vercel)
 *.faiss
 *.index
 embeddings_cache/
 faiss_index/
 *.pkl
 *.pickle
+
+# Diretórios de dados pesados (CRÍTICO para bundle < 250 MB)
+data/
+data/faiss/
+indexes/
+corpus/
+dumps/
 
 # Artefatos gerados pelo notebook
 artifacts/

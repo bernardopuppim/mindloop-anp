@@ -12,12 +12,6 @@
       "dest": "api/main.py"
     }
   ],
-  "functions": {
-    "api/main.py": {
-      "runtime": "python3.11",
-      "maxDuration": 60
-    }
-  },
   "env": {
     "PYTHONPATH": ".",
     "SERVERLESS_FAST_MODE": "1"

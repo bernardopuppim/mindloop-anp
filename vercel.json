@@ -12,24 +12,14 @@
       "dest": "api/main.py"
     }
   ],
+  "functions": {
+    "api/main.py": {
+      "runtime": "python3.11",
+      "maxDuration": 60
+    }
+  },
   "env": {
     "PYTHONPATH": ".",
     "SERVERLESS_FAST_MODE": "1"
-  },
-  "excludes": [
-    "data/**",
-    "*.faiss",
-    "*.pkl",
-    "*.pickle",
-    "indexes/**",
-    "corpus/**",
-    "dumps/**",
-    "notebooks/**",
-    "ui/**",
-    "ui-next/**",
-    "padroes_anp/**",
-    ".venv/**",
-    "*.ipynb",
-    "*.pdf"
-  ]
+  }
 }

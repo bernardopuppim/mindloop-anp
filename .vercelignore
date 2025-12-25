@@ -1,0 +1,104 @@
+# ============================================
+# .vercelignore - Exclusões para Deploy Vercel
+# ============================================
+# CRÍTICO: Reduz bundle de ~500 MB para < 100 MB
+
+# ============================================
+# Dados Pesados (FAISS, índices, corpus)
+# ============================================
+data/
+data/**
+indexes/
+indexes/**
+corpus/
+corpus/**
+dumps/
+dumps/**
+
+# Embeddings e índices vetoriais
+*.faiss
+*.index
+*.pkl
+*.pickle
+embeddings_cache/
+faiss_index/
+
+# ============================================
+# Notebooks e UI (não necessários em prod)
+# ============================================
+notebooks/
+notebooks/**
+*.ipynb
+.ipynb_checkpoints
+
+ui/
+ui/**
+ui-next/
+ui-next/**
+
+# ============================================
+# Dados Brutos (PDFs normativos)
+# ============================================
+padroes_anp/
+padroes_anp/**
+*.pdf
+
+# ============================================
+# Ambiente Local (Dev)
+# ============================================
+.venv/
+.venv/**
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ============================================
+# Configurações Locais
+# ============================================
+config.ini
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# ============================================
+# Artefatos de Build/Cache
+# ============================================
+artifacts/
+llm_cache/
+.langchain_cache/
+logs/
+*.log
+temp/
+tmp/
+*.tmp
+*.bak
+*.backup
+*.old
+
+# ============================================
+# Git e IDE
+# ============================================
+.git/
+.gitignore
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ============================================
+# Testes e Documentação de Dev
+# ============================================
+test_*.py
+*_test.py
+tests/
+pytest.ini
+.pytest_cache/
+
+# README e documentação ficam (útil no Vercel)
+# !README.md
+# !*.md

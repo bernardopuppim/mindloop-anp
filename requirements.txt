@@ -1,31 +1,49 @@
-# LLM & LangChain
-langchain
-langchain-core
-langchain-openai
-langchain-community
-langgraph
+# ============================================
+# requirements.txt - SERVERLESS MVP (Vercel)
+# ============================================
+# Versão minimalista sem RAG/FAISS
+# Bundle otimizado para < 250 MB
 
-# RAG e busca
-faiss-cpu>=1.8.0
-rank-bm25>=0.2.2
+# ============================================
+# LLM & LangChain (apenas essenciais)
+# ============================================
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+langgraph>=0.2.0
 
-# Web frameworks
-streamlit>=1.40.0
+# ❌ REMOVIDO: langchain (muito pesado, usa apenas subpacotes)
+# ❌ REMOVIDO: langchain-community (inclui FAISS)
+
+# ============================================
+# Web Framework (FastAPI + ASGI)
+# ============================================
 fastapi>=0.115.0
 uvicorn>=0.30.0
 
-# Data processing
-numpy>=1.26.0
-pandas>=2.2.0
+# ❌ REMOVIDO: streamlit (UI não necessária em serverless)
 
+# ============================================
 # HTTP e SSL
+# ============================================
 httpx>=0.27.0
 certifi>=2024.0.0
 
-# Configuração e validação
+# ============================================
+# Configuração e Validação
+# ============================================
 python-dotenv>=1.0.0
 pydantic>=2.10.0
 
-# Observabilidade e utilitários
-loguru>=0.7.2
-tqdm>=4.66.0
+# ============================================
+# Observabilidade (apenas logging)
+# ============================================
+# ❌ REMOVIDO: loguru (usar logging padrão)
+# ❌ REMOVIDO: tqdm (progress bars não necessários)
+
+# ============================================
+# ❌ REMOVIDAS: Dependências RAG/FAISS
+# ============================================
+# faiss-cpu>=1.8.0          # ~180 MB - biblioteca C++
+# rank-bm25>=0.2.2          # busca BM25 (não usado sem corpus)
+# numpy>=1.26.0             # dependência de FAISS
+# pandas>=2.2.0             # manipulação de dados (não essencial)

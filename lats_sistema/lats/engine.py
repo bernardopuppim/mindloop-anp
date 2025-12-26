@@ -4,6 +4,7 @@
 # ================================================================
 
 import math
+import logging
 from typing import Dict, Any, List
 
 from lats_sistema.lats.utils import (
@@ -16,12 +17,27 @@ from lats_sistema.lats.evaluator import avaliar_filhos_llm
 from lats_sistema.lats.tree_loader import NODE_INDEX, ROOT_ID
 from lats_sistema.lats.hitl_gating import precisa_hitl, gerar_hitl_metadata
 
-# 🔁 Memória de decisões humanas (faz a ponte com SQLite + FAISS)
-from lats_sistema.memory.memory_retriever import buscar_justificativas_semelhantes
-from lats_sistema.memory.memory_saver import salvar_memoria_if_applicable
-
 # ⚡ FAST_MODE support (NÃO afeta HITL)
-from lats_sistema.config.fast_mode import LATS_MAX_STEPS, LATS_TOP_FINAIS
+from lats_sistema.config.fast_mode import LATS_MAX_STEPS, LATS_TOP_FINAIS, SERVERLESS_FAST_MODE
+
+logger = logging.getLogger(__name__)
+
+# 🔁 Memória de decisões humanas (SQLite + FAISS)
+# ⚠️ SERVERLESS: Memória depende de FAISS, desabilitada em modo serverless
+if not SERVERLESS_FAST_MODE:
+    from lats_sistema.memory.memory_retriever import buscar_justificativas_semelhantes
+    from lats_sistema.memory.memory_saver import salvar_memoria_if_applicable
+else:
+    # Placeholders para modo serverless
+    def buscar_justificativas_semelhantes(*args, **kwargs):
+        """Placeholder - memória episódica desabilitada em serverless"""
+        return []
+
+    def salvar_memoria_if_applicable(*args, **kwargs):
+        """Placeholder - memória episódica desabilitada em serverless"""
+        pass
+
+    logger.info("[SERVERLESS MODE] Memória episódica (FAISS) desabilitada")
 
 MAX_STEPS = LATS_MAX_STEPS
 TOP_FINAIS = LATS_TOP_FINAIS
